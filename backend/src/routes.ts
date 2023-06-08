@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 
-import { addUser, getAll ,removeOne} from "./controllers";
+import { addUser, getAll, removeOne, toggle_star } from "./controllers";
 
 const router = Router();
 
@@ -20,14 +20,11 @@ router.get("/users", (req: Request, res: Response) => {
 });
 
 router.delete("/users/:username", (req: Request, res: Response) => {
-
     removeOne(req, res);
 });
 
-router.patch("/users", (req: Request, res: Response) => {
-
-    return res.status(200).send({ message: "TODO" })
-
+router.patch("/users/:username/toggle-star", (req: Request, res: Response) => {
+    toggle_star(req, res);
 });
 
 

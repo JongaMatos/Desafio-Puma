@@ -6,7 +6,8 @@ interface UserData {
     username: string,
     nome: string,
     avatar: string,
-    url: string
+    url: string,
+    star: boolean
 }
 
 
@@ -84,4 +85,34 @@ const removeOne = (req: Request, res: Response) => {
 
 }
 
-export { getAll, addUser, removeOne }
+const toggle_star = (req: Request, res: Response) => {
+
+    const { username } = req.params;
+    try {
+        let { users } = load("data.txt");
+
+        if (users === undefined || username === undefined)
+            return res.status(400).send({ message: "Não foi possivel atualizar usuário." });
+
+        const index = users.findIndex((user: UserData) => user.username == username);
+
+        if (index < 0)
+            return res.status(404).send({ message: "Usuário não encontrado." });
+
+        if (users[index].star == false)
+            users.map((user: UserData) => { user.star = false });
+
+        users[index].star = (!users[index].star);
+
+        save("data.txt", { users });
+
+        return res.status(200).send({users});
+
+    } catch (error) {
+
+        return res.status(400).send({ message: "Não foi possivel atualizar usuário." });
+    }
+
+}
+
+export { getAll, addUser, removeOne, toggle_star }
