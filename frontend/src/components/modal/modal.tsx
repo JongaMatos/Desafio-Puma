@@ -2,20 +2,18 @@ import React, { useContext } from 'react';
 import Modal from "react-overlays/Modal";
 
 import { AppContext } from '../../context';
-
 import './modal.css'
 
-const renderBackdrop = (props:any) => <div className="backdrop" {...props} />;
+// const renderBackdrop = (props: any) => <div className="backdrop" {...props} />;
 
-
-export default () => {
+const ModalOverlay = () => {
     const { modalMessage, modalStatus, resetModal } = useContext(AppContext);
 
     return (
         <Modal
             className='modal'
             show={modalStatus}
-            renderBackdrop={renderBackdrop}
+            // renderBackdrop={renderBackdrop}
         >
             <div className='innerbox'>
                 <h2>{modalMessage}</h2>
@@ -25,3 +23,4 @@ export default () => {
         </Modal>
     )
 }
+export default ModalOverlay;

@@ -26,16 +26,20 @@ export const Card = ({ user }: IProps) => {
 
     return (
         <div className='card'>
+
             <img src={xIcon} className='x' onClick={() => { removeUser(username) }} alt={"Remover " + username} />
             <img src={avatar} alt={"Imagem de " + username} />
+
             <div className='cardData'>
                 <h2>{nome}</h2>
                 <h3>{username}</h3>
-                <a href={url}>Perfil</a>
+                <a target="_blank"  rel="noreferrer" href={url}>Perfil</a>
             </div>
+            
             <div className="icons">
                 <img className="starIcon" onClick={() => { toggle_star(username) }} src={starColor()} alt={"Favoritar " + username} />
             </div>
+
         </div>
     )
 }

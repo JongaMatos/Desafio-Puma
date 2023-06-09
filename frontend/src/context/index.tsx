@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useContext, useEffect } from 'react';
+import React, { createContext, ReactNode, useState, useEffect } from 'react';
 import { challengeApi } from '../services/challengeApi';
 import fetchUser from '../services/githubApi';
 import { User } from '../interface';
@@ -29,7 +29,7 @@ export function AppProvider({ children }: AppProviderProps) {
         return () => {
 
         }
-    }, [])
+    })
 
 
     const [userList, setUserList] = useState<User[] | false>(false)
@@ -43,15 +43,17 @@ export function AppProvider({ children }: AppProviderProps) {
         setModalMessage('');
     }
 
+    // Verifica se ja existe, na lista, algum usuário com este username.
     const inList = (newUser: string) => {
         if (!userList)
             return false;
-        if (userList.findIndex(user => user.username == newUser) < 0)
+        if (userList.findIndex(user => user.username === newUser) < 0)
             return false;
 
         return true;
     }
 
+    // Verifica se se a lista ja alcançou seu tamanho maximo (5).
     const fullList = () => {
         if (!userList)
             return false;
@@ -60,26 +62,35 @@ export function AppProvider({ children }: AppProviderProps) {
 
         return true;
     }
+
+    // Adiciona na lista, o usuario com o username fornecido, se o mesmo atender os requisitos.
     const addUser = async (username: string) => {
+
+        // Caso ja exista este username na lista, abre se o modal, e encerra a função.
         if (inList(username)) {
             setModalMessage("Usuário ja se encontra na lista.");
             setModalStatus(true);
             return;
         }
+        // Caso a lista esteja cheia, abre-se o modal e encerra a função.
         if (fullList()) {
             setModalMessage("A lista já se encontra cheia.");
             setModalStatus(true);
             return;
         }
         const response = await fetchUser(username);
+
+        // Caso o o username fornecido não esteja associado a uma conta do github, abre-se o modal e encerra a função.
         if (response.username === '-1') {
             setModalMessage("Nome de usuário inexistente.");
             setModalStatus(true);
             return;
         }
+        // Caso se atenda todos os requisitos anteriores, envia-se os dados deste usuário para o backend.
         postUser(response);
     }
 
+    // Envia os dados de um usuário para o backend, para que os mesmos sejam armazenados.
     const postUser = async (user: User) => {
         try {
 
@@ -91,6 +102,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
     }
 
+    // Solicita todos os usuarios cadastrados.
     const getUsers = async () => {
         try {
 
@@ -103,6 +115,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
     }
 
+    // Atualiza o estado da estrela.
     const toggle_star = async (username: string) => {
         try {
 
@@ -113,6 +126,7 @@ export function AppProvider({ children }: AppProviderProps) {
         }
     }
 
+    // Remove um usuario da lista.
     const removeUser = async (username: string) => {
         try {
 
@@ -122,8 +136,6 @@ export function AppProvider({ children }: AppProviderProps) {
             console.log(error)
         }
     }
-
-
 
 
 

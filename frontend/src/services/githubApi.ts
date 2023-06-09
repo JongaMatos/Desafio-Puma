@@ -17,12 +17,12 @@ const githubApi = axios.create({
     }
 });
 
+// Busca as informações do usuario atravez da api do github.
 export default async function fetchUser(
     username: string
 ): Promise<User> {
     try {
         const response: AxiosResponse<GithubResponse> = await githubApi.get(username);
-        console.log(response.data)
         return {
             "username": response.data.login,
             "nome": response.data.name,

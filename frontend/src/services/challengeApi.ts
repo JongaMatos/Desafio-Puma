@@ -1,4 +1,4 @@
-import axios,{AxiosResponse} from "axios";
+import axios from "axios";
 
 export const challengeApi = axios.create({
     baseURL: "http://localhost:5000/users/",
@@ -6,12 +6,4 @@ export const challengeApi = axios.create({
         "Content-type": "application/json"
     }
 });
-
-interface User {
-    "username": string,
-    "nome": string,
-    "avatar": string,
-    "url": string
-
-}
 
