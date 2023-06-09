@@ -1,0 +1,28 @@
+.card{
+
+    display: flex;
+
+    border: 1px;
+    border-style: solid;
+    max-width: 40%;
+    margin-top: 5px;
+    margin-left: 1%;
+
+}
+
+.card img{
+    max-width: 7rem;
+    margin:1rem;
+    border-radius: 100%;
+}
+
+.cardData{
+    margin: auto;
+}
+
+.starIcon{
+    width: 2rem;
+}
+.starIcon:hover{
+    cursor: pointer;
+}

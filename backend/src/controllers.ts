@@ -37,9 +37,12 @@ const addUser = (req: Request, res: Response) => {
             save("data.txt", { users: [{ username, nome, avatar, url, star: false }] });
             return res.status(200).send({ users: [{ username, nome, avatar, url, star: false }] });
         }
-        // console.log(data.users.findIndex((user: UserData) => user.username == username))
+
         if (data.users.findIndex((user: UserData) => user.username == username) >= 0)
             return res.status(401).send({ message: "usuario ja cadastrado" });
+
+        if (data.users.length >= 5)
+            return res.status(400).send({ message: "Quantidade maxima de cadastros atingida" });
 
         var newData = data.users;
 
@@ -106,7 +109,7 @@ const toggle_star = (req: Request, res: Response) => {
 
         save("data.txt", { users });
 
-        return res.status(200).send({users});
+        return res.status(200).send({ users });
 
     } catch (error) {
 
