@@ -10,7 +10,7 @@ function load(file: string) {
     try {
 
         const storedData = readFileSync("src/data/" + file, 'utf8');
-        if(storedData==='')
+        if (storedData === '')
             return undefined;
         return JSON.parse(storedData);
 
@@ -20,4 +20,8 @@ function load(file: string) {
 
 }
 
-export { save, load };
+function clear(file: string) {
+    return writeFileSync("src/data/" + file, '');
+}
+
+export { save, load, clear };
