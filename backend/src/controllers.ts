@@ -11,10 +11,10 @@ interface UserData {
 }
 
 
-const getAll = (req: Request, res: Response) => {
+const getAll = (req: Request, res: Response, file: string) => {
     try {
 
-        const data = load("data.txt");
+        const data = load(file);
         if (data === undefined)
             return res.status(200).send({ users: {} });
         return res.status(200).send(data);
@@ -26,15 +26,14 @@ const getAll = (req: Request, res: Response) => {
     }
 }
 
-const addUser = (req: Request, res: Response) => {
+const addUser = (req: Request, res: Response, file: string) => {
     const { username, nome, avatar, url } = req.body;
 
     try {
-        // save("data.txt",{users:[{username,nome,avatar,url}]})
-        const data = load("data.txt")
+        const data = load(file);
 
         if (data === undefined) {
-            save("data.txt", { users: [{ username, nome, avatar, url, star: false }] });
+            save(file, { users: [{ username, nome, avatar, url, star: false }] });
             return res.status(200).send({ users: [{ username, nome, avatar, url, star: false }] });
         }
 
@@ -47,23 +46,22 @@ const addUser = (req: Request, res: Response) => {
         var newData = data.users;
 
         newData.push({ username, nome, avatar, url, star: false });
-        save("data.txt", { users: newData });
+        save(file, { users: newData });
         return res.status(200).send({ users: newData });
 
     } catch (error) {
 
-        // console.log({ error });
         return res.status(400).send({ message: "não foi possivel adicionar usuario" });
     }
 }
 
-const removeOne = (req: Request, res: Response) => {
+const removeOne = (req: Request, res: Response, file: string) => {
 
     const { username } = req.params;
 
     try {
 
-        let { users } = load("data.txt");
+        let { users } = load(file);
         if (users === undefined || username === undefined)
             return res.status(400).send({ message: "Não foi possivel remover usuário." });
 
@@ -73,7 +71,7 @@ const removeOne = (req: Request, res: Response) => {
             return res.status(404).send({ message: "Usuário não registrado." });
 
         users.splice(index, 1);
-        save("data.txt", { users });
+        save(file, { users });
         return res.status(200).send({ users });
 
 
@@ -88,11 +86,11 @@ const removeOne = (req: Request, res: Response) => {
 
 }
 
-const toggle_star = (req: Request, res: Response) => {
+const toggle_star = (req: Request, res: Response, file: string) => {
 
     const { username } = req.params;
     try {
-        let { users } = load("data.txt");
+        let { users } = load(file);
 
         if (users === undefined || username === undefined)
             return res.status(400).send({ message: "Não foi possivel atualizar usuário." });
@@ -107,7 +105,7 @@ const toggle_star = (req: Request, res: Response) => {
 
         users[index].star = (!users[index].star);
 
-        save("data.txt", { users });
+        save(file, { users });
 
         return res.status(200).send({ users });
 

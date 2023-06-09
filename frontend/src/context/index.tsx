@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, ReactNode, useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { challengeApi } from '../services/challengeApi';
 import fetchUser from '../services/githubApi';
 import { User } from '../interface';
@@ -11,6 +11,11 @@ interface AppContextData {
     modalStatus: boolean;
     modalMessage: string;
     resetModal: () => void;
+    alfabeticalOrder: boolean;
+    setAlfabeticalOrder: Dispatch<SetStateAction<boolean>>;
+    selectList: () => User[] | false;
+
+
 
 }
 interface AppProviderProps {
@@ -23,16 +28,32 @@ export function AppProvider({ children }: AppProviderProps) {
 
 
     useEffect(() => {
-        if (!userList) {
+        if (!userList)
             getUsers();
-        }
+
+
         return () => {
 
         }
     })
 
-
     const [userList, setUserList] = useState<User[] | false>(false)
+
+    const [alfabeticalOrder, setAlfabeticalOrder] = useState(false);
+    const [alfabeticalUserList, setAlfabeticalUserList] = useState<User[] | false>(false)
+
+    // Cria copia ordenada alfabeticamente de um lista.
+    const order = (users: User[]) => {
+        let aux = users.slice()
+        setAlfabeticalUserList(aux.sort((a, b) =>
+            a.nome.localeCompare(b.nome)))
+    }
+    // Retorna a lista ordenada alfabeticamente ou por ordem de inclusão.
+    const selectList = () => {
+        if (alfabeticalOrder)
+            return alfabeticalUserList;
+        return userList;
+    }
 
     const [modalStatus, setModalStatus] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
@@ -95,7 +116,10 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.post('', user);
-            setUserList(response.data.users);
+            if (Object.keys(response.data.users).length !== 0) {
+                order(response.data.users);
+                setUserList(response.data.users);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -107,8 +131,10 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.get('');
-            if (Object.keys(response.data.users).length !== 0)
+            if (Object.keys(response.data.users).length !== 0) {
+                order(response.data.users);
                 setUserList(response.data.users);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -120,7 +146,10 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.patch(username + "/toggle-star");
-            setUserList(response.data.users);
+            if (Object.keys(response.data.users).length !== 0) {
+                order(response.data.users);
+                setUserList(response.data.users);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -131,7 +160,14 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.delete(username);
-            setUserList(response.data.users);
+            if (Object.keys(response.data.users).length !== 0) {
+                order(response.data.users);
+                setUserList(response.data.users);
+            }
+            else {
+                setAlfabeticalUserList(false);
+                setUserList(false);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -147,7 +183,10 @@ export function AppProvider({ children }: AppProviderProps) {
             removeUser,
             modalStatus,
             modalMessage,
-            resetModal
+            resetModal,
+            alfabeticalOrder,
+            setAlfabeticalOrder,
+            selectList
         }}>{children}</AppContext.Provider>
     );
 

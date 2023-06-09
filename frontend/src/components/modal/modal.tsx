@@ -14,6 +14,7 @@ const ModalOverlay = () => {
         <Modal
             id='modal'
             isOpen={modalStatus}
+            ariaHideApp={false}
         >
                 <h2>{modalMessage}</h2>
 

@@ -8,7 +8,8 @@ import { Card } from '../card/card';
 import './cardGrid.css'
 
 export const CardGrid = () => {
-    const { userList } = useContext(AppContext);
+    const { selectList } = useContext(AppContext);
+    const userList = selectList();
     if (!userList)
         return <></>
 

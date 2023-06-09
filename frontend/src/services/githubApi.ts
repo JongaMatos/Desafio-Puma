@@ -25,7 +25,7 @@ export default async function fetchUser(
         const response: AxiosResponse<GithubResponse> = await githubApi.get(username);
         return {
             "username": response.data.login,
-            "nome": response.data.name,
+            "nome": response.data.name || " ",
             "avatar": response.data.avatar_url,
             "url": response.data.html_url,
             "star":false

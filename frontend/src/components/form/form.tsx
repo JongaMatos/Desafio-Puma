@@ -14,6 +14,7 @@ export const Form = () => {
     const handleSubmit = (e: BaseSyntheticEvent) => {
         e.preventDefault();
         addUser(username);
+        setUsername("")
     };
 
 
