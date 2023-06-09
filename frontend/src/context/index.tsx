@@ -78,14 +78,12 @@ export function AppProvider({ children }: AppProviderProps) {
             return;
         }
         postUser(response);
-        console.log(response)
     }
 
     const postUser = async (user: User) => {
         try {
 
             const response = await challengeApi.post('', user);
-            console.log(response.data.users)
             setUserList(response.data.users);
         } catch (error) {
             console.log(error)
@@ -97,8 +95,8 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.get('');
-            console.log(response.data.users)
-            setUserList(response.data.users);
+            if (Object.keys(response.data.users).length !== 0)
+                setUserList(response.data.users);
         } catch (error) {
             console.log(error)
         }
@@ -109,7 +107,6 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.patch(username + "/toggle-star");
-            console.log(response.data.users)
             setUserList(response.data.users);
         } catch (error) {
             console.log(error)
@@ -120,7 +117,6 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.delete(username);
-            console.log(response.data.users)
             setUserList(response.data.users);
         } catch (error) {
             console.log(error)
