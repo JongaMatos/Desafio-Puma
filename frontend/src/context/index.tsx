@@ -30,8 +30,6 @@ export function AppProvider({ children }: AppProviderProps) {
     useEffect(() => {
         if (!userList)
             getUsers();
-
-
         return () => {
 
         }

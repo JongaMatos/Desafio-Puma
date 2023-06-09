@@ -1,1 +1,0 @@
-{"users":[{"username":"teste11","nome":"nome1","avatar":"AAAAAAA","url":"www.aaaaaaa.com","star":true},{"username":"teste99","nome":"nome1","avatar":"AAAAAAA","url":"www.aaaaaaa.com","star":false}]}
