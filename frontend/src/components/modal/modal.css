@@ -1,15 +1,8 @@
 
-.modal {
-    width: 100vw;
-    height: 100vh;
 
-    display: flex;
-    justify-content: center;
-}
-
-.innerbox {
+#modal {
     position: absolute;
-    opacity: 1;
+    margin: auto;
     margin-top: 8rem;
 
     background-color: brown;
@@ -19,27 +12,23 @@
     align-items: center;
 
     height: fit-content;
-
-    padding-right: 5rem;
-    padding-left: 5rem;
-    padding-bottom: 5rem;
-    padding-top: 4rem;
+    width: fit-content;
 
     border-style: groove;
     border-width: 2px;
     border-color: black;
-    border-radius: 1rem;
+    border-radius: 2rem;
 
 
 }
 
 
-.innerbox button{
+#modal button {
 
     color: black;
     font-weight: 600;
     font-size: medium;
-    
+
     padding: 0.5rem;
     padding-top: 0.3rem;
 
