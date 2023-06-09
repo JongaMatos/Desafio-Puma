@@ -5,9 +5,7 @@ import { Card } from '../card/card';
 import { AppContext } from '../../context';
 import { User } from '../../interface';
 
-
-
-
+import './cardGrid.css'
 
 
 export const CardGrid = () => {
@@ -16,12 +14,12 @@ export const CardGrid = () => {
         return <></>
 
     return (
-        <>
+        <div className='cards'>
             {userList.map((user: User) => (
 
                 <Card key={user.username}user={user} />
 
             ))}
-        </>
+        </div>
     )
 }

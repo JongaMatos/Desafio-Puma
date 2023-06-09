@@ -7,6 +7,10 @@ interface AppContextData {
     userList: User[] | false;
     addUser: (username: string) => Promise<void>;
     toggle_star: (username: string) => Promise<void>;
+    removeUser: (username: string) => Promise<void>;
+    modalStatus: boolean;
+    modalMessage: string;
+    resetModal: () => void;
 
 }
 interface AppProviderProps {
@@ -30,6 +34,15 @@ export function AppProvider({ children }: AppProviderProps) {
 
     const [userList, setUserList] = useState<User[] | false>(false)
 
+    const [modalStatus, setModalStatus] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+
+
+    const resetModal = () => {
+        setModalStatus(false);
+        setModalMessage('');
+    }
+
     const inList = (newUser: string) => {
         if (!userList)
             return false;
@@ -48,11 +61,22 @@ export function AppProvider({ children }: AppProviderProps) {
         return true;
     }
     const addUser = async (username: string) => {
-        if (inList(username) || fullList())
+        if (inList(username)) {
+            setModalMessage("Usuário ja se encontra na lista.");
+            setModalStatus(true);
             return;
+        }
+        if (fullList()) {
+            setModalMessage("A lista já se encontra cheia.");
+            setModalStatus(true);
+            return;
+        }
         const response = await fetchUser(username);
-        if (response.username === '-1')
+        if (response.username === '-1') {
+            setModalMessage("Nome de usuário inexistente.");
+            setModalStatus(true);
             return;
+        }
         postUser(response);
         console.log(response)
     }
@@ -61,6 +85,18 @@ export function AppProvider({ children }: AppProviderProps) {
         try {
 
             const response = await challengeApi.post('', user);
+            console.log(response.data.users)
+            setUserList(response.data.users);
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const getUsers = async () => {
+        try {
+
+            const response = await challengeApi.get('');
             console.log(response.data.users)
             setUserList(response.data.users);
         } catch (error) {
@@ -80,25 +116,30 @@ export function AppProvider({ children }: AppProviderProps) {
         }
     }
 
-
-    const getUsers = async () => {
+    const removeUser = async (username: string) => {
         try {
 
-            const response = await challengeApi.get('');
+            const response = await challengeApi.delete(username);
             console.log(response.data.users)
             setUserList(response.data.users);
         } catch (error) {
             console.log(error)
         }
-
     }
+
+
+
 
 
     return (
         <AppContext.Provider value={{
             userList,
             addUser,
-            toggle_star
+            toggle_star,
+            removeUser,
+            modalStatus,
+            modalMessage,
+            resetModal
         }}>{children}</AppContext.Provider>
     );
 

@@ -1,0 +1,25 @@
+.forms{
+    /* background-color: black; */
+
+    margin-top: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.forms label{
+    font-weight: 500;
+
+    margin-right: 0.4rem;
+}
+
+.forms input{
+    font-weight: 400;
+    font-size: medium;
+}
+
+.forms button{
+    font-weight: 400;
+    font-size: medium;
+}
