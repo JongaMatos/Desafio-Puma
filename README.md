@@ -51,4 +51,4 @@ Foi utilizado o `React` para o desenvolvimento da interface, com auxilio da bibl
     ```bash
        npm install && npm test
     ```
-* Obs: é necessario que o backend esteja sendo executado para que o backend funcione.
+* Obs: é necessario que o backend esteja sendo executado para que o frontend funcione.
